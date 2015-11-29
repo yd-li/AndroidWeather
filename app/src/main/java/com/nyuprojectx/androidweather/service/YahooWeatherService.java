@@ -3,7 +3,9 @@ package com.nyuprojectx.androidweather.service;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
+import com.nyuprojectx.androidweather.WeatherActivity;
 import com.nyuprojectx.androidweather.data.Channel;
 
 import org.json.JSONException;
