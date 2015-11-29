@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">AndroidWeather</string>
+    <string name="action_settings">Settings</string>
+    <string name="condition_icon">condition_icon</string>
+    <string name="Temperature">Temperature</string>
+    <string name="Condition">Condition</string>
+    <string name="Location">Location</string>
+    <string name="Refresh">Refresh</string>
+    <string name="showMap">Map</string>
+    <string name="newLocationHint">Input new location</string>
+    <string name="OK">OK</string>
+    <string name="cancel">CANCEL</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="password">Password:</string>
+    <string name="username">Username:</string>
+    <string name="register">REGISTER</string>
+    <string name="email">Email</string>
+    <string name="logOut">Log out</string>
+</resources>
