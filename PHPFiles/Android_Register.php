@@ -1,5 +1,5 @@
 <?php
-    $con = mysqli_connect("neoskywalker7.com", "neoskywa_project", "project", "neoskywa_projectx");
+    $con = mysqli_connect("localhost", "neoskywa_project", "project", "neoskywa_projectx");
     
     $uname = $_POST["uname"];
     $email = $_POST["email"];

@@ -13,7 +13,7 @@
 
     $user = array();
 
-    while(mysqli_stmt_fetch($statement)){
+    while(mysqli_stmt_fetch($statement)) {
     	$user["uid"] = $uid;
         $user["uname"] = $uname;
 	$user["email"] = $email;
