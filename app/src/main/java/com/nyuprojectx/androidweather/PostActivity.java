@@ -39,8 +39,6 @@ public class PostActivity extends AppCompatActivity {
     private LatLng latLng;
     private String location;
 
-    private int moodIndex = 1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,18 +67,17 @@ public class PostActivity extends AppCompatActivity {
                 R.array.mood_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         moodSpinner.setAdapter(adapter);
-        moodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                moodIndex = position;
-                Toast.makeText(getBaseContext(), String.valueOf(moodIndex), Toast.LENGTH_SHORT).show();
-            }
+        // moodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        //     @Override
+        //     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        //         moodIndex = position;
+        //     }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+        //     @Override
+        //     public void onNothingSelected(AdapterView<?> parent) {
 
-            }
-        });
+        //     }
+        // });
 
         informationTextView.setText("Lat: " + String.valueOf(latLng.latitude) + ", Lng: " + String.valueOf(latLng.longitude)
                 + "\nYour Location: " + location);
@@ -95,7 +92,9 @@ public class PostActivity extends AppCompatActivity {
                 else {
                     String status = postEditText.getText().toString();
                     User user = userLocalStore.getLoggedInUser();
+                    int moodIndex = moodSpinner.getSelectedItemPosition();
                     Post post = new Post(user.uid, latLng, status, moodIndex);
+                    Toast.makeText(getBaseContext(), String.valueOf(moodIndex), Toast.LENGTH_SHORT).show();
                     ServerRequests serverRequest = new ServerRequests(PostActivity.this);
                     serverRequest.postAsyncTask(post, new GetUserCallback() {
                         @Override
@@ -128,8 +127,8 @@ public class PostActivity extends AppCompatActivity {
         Geocoder gc = new Geocoder(PostActivity.this);
         List<Address> list = null;
         try {
-            // list = gc.getFromLocation(latLng.latitude, latLng.longitude, 1); // current location
-            list = gc.getFromLocation(47.60621, -122.33207, 1); // Seattle
+            list = gc.getFromLocation(latLng.latitude, latLng.longitude, 1); // current location
+            // list = gc.getFromLocation(47.60621, -122.33207, 1); // Seattle
         } catch (IOException e) {
             e.printStackTrace();
         }

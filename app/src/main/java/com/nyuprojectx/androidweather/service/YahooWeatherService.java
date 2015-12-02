@@ -76,6 +76,8 @@ public class YahooWeatherService {
 
                     JSONObject data = new JSONObject(result.toString());
 
+                    System.out.println(result.toString());
+
                     JSONObject queryResults = data.optJSONObject("query");
 
                     int count = queryResults.optInt("count");
