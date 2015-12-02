@@ -99,17 +99,8 @@ public class WeatherActivity extends AppCompatActivity implements WeatherService
         assistButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // String foo = SP.getString("username", "NA");
-                // Toast.makeText(getBaseContext(), foo, Toast.LENGTH_SHORT).show();
-
-                if (userLocalStore.getLoggedInUser() == null) {
-                    Intent intent = new Intent(WeatherActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                }
-                else {
-                    Intent intent = new Intent(WeatherActivity.this, UserInfoActivity.class);
-                    startActivity(intent);
-                }
+                Intent intent = new Intent(WeatherActivity.this, PostActivity.class);
+                startActivity(intent);
             }
         });
 

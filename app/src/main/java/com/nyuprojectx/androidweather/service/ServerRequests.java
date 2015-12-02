@@ -1,11 +1,13 @@
-package com.nyuprojectx.androidweather.user;
-
+package com.nyuprojectx.androidweather.service;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
+
+import com.nyuprojectx.androidweather.user.GetUserCallback;
+import com.nyuprojectx.androidweather.user.Post;
+import com.nyuprojectx.androidweather.user.User;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -28,6 +30,7 @@ public class ServerRequests {
     ProgressDialog progressDialog;
     public static final int CONNECTION_TIMEOUT = 1000 * 15;
     public static final String SERVER_ADDRESS = "http://neoskywalker7.com/projectx/";
+    // public static final String SERVER_ADDRESS = "/Users/YuandaLi/AndroidStudioProjects/AndroidWeather/PHPFiles/";
 
     public ServerRequests(Context context) {
         progressDialog = new ProgressDialog(context);
@@ -44,6 +47,11 @@ public class ServerRequests {
     public void fetchUserDataAsyncTask(User user, GetUserCallback userCallBack) {
         progressDialog.show();
         new fetchUserDataAsyncTask(user, userCallBack).execute();
+    }
+
+    public void postAsyncTask(Post post, GetUserCallback userCallBack) {
+        progressDialog.show();
+        new PostAsyncTask(post, userCallBack).execute();
     }
 
     /**
@@ -63,11 +71,10 @@ public class ServerRequests {
         @Override
         protected Void doInBackground(Void... params) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<>();
+            dataToSend.add(new BasicNameValuePair("uname", user.uname));
             dataToSend.add(new BasicNameValuePair("email", user.email));
-            dataToSend.add(new BasicNameValuePair("username", user.username));
-            dataToSend.add(new BasicNameValuePair("password", user.password));
-            dataToSend.add(new BasicNameValuePair("date", user.date + ""));
-            dataToSend.add(new BasicNameValuePair("location", user.location));
+            dataToSend.add(new BasicNameValuePair("passwd", user.passwd));
+            dataToSend.add(new BasicNameValuePair("bio", user.bio));
 
             HttpParams httpRequestParams = getHttpRequestParams();
 
@@ -111,15 +118,15 @@ public class ServerRequests {
         @Override
         protected User doInBackground(Void... params) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<>();
-            dataToSend.add(new BasicNameValuePair("username", user.username));
-            dataToSend.add(new BasicNameValuePair("password", user.password));
+            dataToSend.add(new BasicNameValuePair("uname", user.uname));
+            dataToSend.add(new BasicNameValuePair("passwd", user.passwd));
 
             HttpParams httpRequestParams = new BasicHttpParams();
             HttpConnectionParams.setConnectionTimeout(httpRequestParams, CONNECTION_TIMEOUT);
             HttpConnectionParams.setSoTimeout(httpRequestParams, CONNECTION_TIMEOUT);
 
             HttpClient client = new DefaultHttpClient(httpRequestParams);
-            HttpPost post = new HttpPost(SERVER_ADDRESS + "Android_FetchUserData.php");
+            HttpPost post = new HttpPost(SERVER_ADDRESS + "Android_Login.php");
 
             User returnedUser = null;
 
@@ -130,23 +137,23 @@ public class ServerRequests {
                 HttpEntity entity = httpResponse.getEntity();
                 String result = EntityUtils.toString(entity);
 
-                System.out.println("Result:\n" + result);
-
                 JSONObject jObject = new JSONObject(result);
 
                 System.out.println("JSON to string:\n" + jObject.toString());
 
                 if (jObject.length() != 0){
                     Log.v("happened", "2");
+                    int uid;
                     String email;
-                    int date;
+                    String bio;
+                    // int uid = jObject.getInt("uid");
                     // String email = jObject.getString("email");
                     // String date = jObject.getInt("date");
-                    email = "oba@ma";
-                    date = 2015;
-                    returnedUser = new User(email, date, user.username, user.password, "New York");
+                    uid = -1;
+                    email = "e@mail";
+                    bio = "bio";
+                    returnedUser = new User(uid, user.uname, user.email, user.passwd, bio);
                 }
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -161,4 +168,52 @@ public class ServerRequests {
             userCallBack.done(returnedUser);
         }
     }
-}
+
+    public class PostAsyncTask extends AsyncTask<Void, Void, Void> {
+        Post post;
+        GetUserCallback userCallBack;
+
+        public PostAsyncTask(Post post, GetUserCallback userCallBack) {
+            this.post = post;
+            this.userCallBack = userCallBack;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            ArrayList<NameValuePair> dataToSend = new ArrayList<>();
+            dataToSend.add(new BasicNameValuePair("uid", String.valueOf(post.uid)));
+            dataToSend.add(new BasicNameValuePair("lat", String.valueOf(post.latLng.latitude)));
+            dataToSend.add(new BasicNameValuePair("lng", String.valueOf(post.latLng.longitude)));
+            dataToSend.add(new BasicNameValuePair("status", post.status));
+            dataToSend.add(new BasicNameValuePair("mood", String.valueOf(post.mood)));
+            System.out.println(String.valueOf(post.uid) + ", " + post.status + ", " + String.valueOf(post.mood));
+
+            HttpParams httpRequestParams = getHttpRequestParams();
+
+            HttpClient client = new DefaultHttpClient(httpRequestParams);
+            HttpPost post = new HttpPost(SERVER_ADDRESS + "Android_Post.php");
+
+            try {
+                post.setEntity(new UrlEncodedFormEntity(dataToSend));
+                client.execute(post);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        private HttpParams getHttpRequestParams() {
+            HttpParams httpRequestParams = new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(httpRequestParams, CONNECTION_TIMEOUT);
+            HttpConnectionParams.setSoTimeout(httpRequestParams, CONNECTION_TIMEOUT);
+            return httpRequestParams;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            progressDialog.dismiss();
+            userCallBack.done(null);
+        }
+    }}

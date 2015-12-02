@@ -18,11 +18,11 @@ public class UserLocalStore {
 
     public void storeUserData(User user) {
         SharedPreferences.Editor userLocalDatabaseEditor = userLocalDatabase.edit();
+        userLocalDatabaseEditor.putInt("uid", user.uid);
+        userLocalDatabaseEditor.putString("uname", user.uname);
         userLocalDatabaseEditor.putString("email", user.email);
-        userLocalDatabaseEditor.putString("username", user.username);
-        userLocalDatabaseEditor.putString("password", user.password);
-        userLocalDatabaseEditor.putInt("date", user.date);
-        userLocalDatabaseEditor.putString("location", user.location);
+        userLocalDatabaseEditor.putString("passwd", user.passwd);
+        userLocalDatabaseEditor.putString("bio", user.bio);
         userLocalDatabaseEditor.commit();
     }
 
@@ -43,13 +43,13 @@ public class UserLocalStore {
             return null;
         }
 
+        int uid = userLocalDatabase.getInt("uid", -1);
+        String uname = userLocalDatabase.getString("uname", "");
         String email = userLocalDatabase.getString("email", "");
-        String username = userLocalDatabase.getString("username", "");
-        String password = userLocalDatabase.getString("password", "");
-        int date = userLocalDatabase.getInt("date", -1);
-        String location = userLocalDatabase.getString("location", "New York");
+        String passwd = userLocalDatabase.getString("password", "");
+        String bio = userLocalDatabase.getString("bio", "");
 
-        User user = new User(email, date, username, password, location);
+        User user = new User(uid, uname, email, passwd, bio);
         return user;
     }
 }

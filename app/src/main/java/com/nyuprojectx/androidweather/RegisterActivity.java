@@ -1,6 +1,5 @@
 package com.nyuprojectx.androidweather;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,11 +8,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.nyuprojectx.androidweather.user.GetUserCallback;
-import com.nyuprojectx.androidweather.user.ServerRequests;
+import com.nyuprojectx.androidweather.service.ServerRequests;
 import com.nyuprojectx.androidweather.user.User;
 
 public class RegisterActivity extends AppCompatActivity {
-    EditText emailEditText, dateEditText, usernameEditText, passwordEditText, locationEditText;
+    EditText emailEditText, unameEditText, passwdEditText, bioEditText;
     Button registerButton, cancelButton;
 
     @Override
@@ -21,24 +20,22 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        unameEditText = (EditText) findViewById(R.id.unameEditText);
         emailEditText = (EditText) findViewById(R.id.emailEditText);
-        dateEditText = (EditText) findViewById(R.id.dateEditText);
-        usernameEditText = (EditText) findViewById(R.id.usernameEditText);
-        passwordEditText = (EditText) findViewById(R.id.passwordEditText);
-        locationEditText = (EditText) findViewById(R.id.locationEditText);
+        passwdEditText = (EditText) findViewById(R.id.passwdEditText);
+        bioEditText = (EditText) findViewById(R.id.bioEditText);
         registerButton = (Button) findViewById(R.id.registerButton);
         cancelButton = (Button) findViewById(R.id.cancelButton);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = emailEditText.getText().toString();
-                String username = usernameEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
-                int date = Integer.parseInt(dateEditText.getText().toString());
-                String location = locationEditText.getText().toString();
-
-                User user = new User(name, date, username, password, location);
+                String uname = unameEditText.getText().toString();
+                String email= emailEditText.getText().toString();
+                String passwd = passwdEditText.getText().toString();
+                String bio = bioEditText.getText().toString();
+                Toast.makeText(getBaseContext(), uname + email + passwd + bio, Toast.LENGTH_SHORT).show();
+                User user = new User(-1, uname, email, passwd, bio);
                 registerUser(user);
             }
         });

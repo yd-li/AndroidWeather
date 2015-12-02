@@ -11,15 +11,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nyuprojectx.androidweather.user.GetUserCallback;
-import com.nyuprojectx.androidweather.user.ServerRequests;
+import com.nyuprojectx.androidweather.service.ServerRequests;
 import com.nyuprojectx.androidweather.user.User;
 import com.nyuprojectx.androidweather.user.UserLocalStore;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Button loginButton, cancelButton;
-    EditText usernameEditText, passwordEditText;
-    TextView registerLink, loginInfoTextView;
+    Button loginButton, cancelButton, registerButton;
+    EditText unameEditText, passwdEditText;
+    TextView loginInfoTextView;
 
     UserLocalStore userLocalStore;
     User user;
@@ -29,10 +29,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        unameEditText = (EditText) findViewById(R.id.unameEditText);
+        passwdEditText = (EditText) findViewById(R.id.passwdEditText);
         loginButton = (Button) findViewById(R.id.loginButton);
-        usernameEditText = (EditText) findViewById(R.id.usernameEditText);
-        passwordEditText = (EditText) findViewById(R.id.passwordEditText);
-        registerLink = (TextView) findViewById(R.id.registerLink);
+        registerButton = (Button) findViewById(R.id.registerButton);
         cancelButton = (Button)findViewById(R.id.cancelButton);
         loginInfoTextView = (TextView)findViewById(R.id.loginInfoTextView);
 
@@ -47,16 +47,16 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = usernameEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
+                String uname = unameEditText.getText().toString();
+                String passwd = passwdEditText.getText().toString();
 
-                User user = new User(username, password);
+                User user = new User(uname, passwd);
 
                 authenticate(user);
             }
         });
 
-        registerLink.setOnClickListener(new View.OnClickListener() {
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
@@ -103,9 +103,7 @@ public class LoginActivity extends AppCompatActivity {
         // change here
 
         StringBuffer sb = new StringBuffer("Welcome ");
-        sb.append(returnedUser.username);
-        sb.append("\n");
-        sb.append(String.valueOf(returnedUser.date));
+        sb.append(returnedUser.uname);
         loginInfoTextView.setText(sb);
         Toast.makeText(getBaseContext(), "Login successfully.", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(LoginActivity.this, UserInfoActivity.class);

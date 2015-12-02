@@ -5,18 +5,20 @@ package com.nyuprojectx.androidweather.user;
  */
 public class User {
 
-    public String email, username, password, location;
-    public int date;
+    public int uid;
+    public String uname; public String email;
+    // int signdate;
+    public String passwd, bio;
 
-    public User(String email, int date, String username, String password, String location) {
+    public User(int uid, String uname, String email, String passwd, String bio) {
+        this.uid = uid;
+        this.uname = uname;
         this.email = email;
-        this.username = username;
-        this.password = password;
-        this.date = date;
-        this.location = location;
+        this.passwd = passwd;
+        this.bio = bio;
     }
 
-    public User(String username, String password) {
-        this("", -1, username, password, "New York");
+    public User(String uname, String passwd) {
+        this(-1, uname, "", passwd, "");
     }
 }

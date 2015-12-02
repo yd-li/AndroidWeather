@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Input your username here."
-        android:id="@+id/usernameEditText" />
+        android:id="@+id/unameEditText" />
 
     <TextView
         android:layout_width="match_parent"
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:hint="Input your password here."
         android:inputType="textPassword"
-        android:id="@+id/passwordEditText"/>
+        android:id="@+id/passwdEditText"/>
 
     <Button
         android:layout_width="match_parent"
@@ -43,16 +43,14 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="CANCEL"
-        android:id="@+id/cancelButton"/>
+        android:text="SIGN UP"
+        android:id="@+id/registerButton"/>
 
-    <TextView
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="No account? Click here to register."
-        android:id="@+id/registerLink"
-        android:gravity="center_horizontal"
-        android:textStyle="bold" />
+        android:text="CANCEL"
+        android:id="@+id/cancelButton"/>
 
     <TextView
         android:layout_width="match_parent"

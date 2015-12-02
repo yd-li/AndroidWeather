@@ -16,4 +16,5 @@
     <string name="register">REGISTER</string>
     <string name="email">Email</string>
     <string name="logOut">Log out</string>
+    <string name="title_activity_post">PostActivity</string>
 </resources>

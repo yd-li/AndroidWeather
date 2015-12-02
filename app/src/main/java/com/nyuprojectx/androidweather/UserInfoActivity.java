@@ -39,9 +39,9 @@ public class UserInfoActivity extends AppCompatActivity {
             finish();
         }
 
-        info1TextView.setText("Username: " + user.username);
-        info2TextView.setText("Date: " + String.valueOf(user.date));
-        info3TextView.setText("Location: " + user.location);
+        info1TextView.setText("Username: " + user.uname);
+        info2TextView.setText("UID: " + String.valueOf(user.uid));
+        info3TextView.setText("Bio: " + user.bio);
 
         logOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
